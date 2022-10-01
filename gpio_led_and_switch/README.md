@@ -5,3 +5,6 @@ Pin 21 is configured as an output.  This pin is wired to an LED and 1k resistor 
 Pin 26 is configured as an input with an internal pull up resistor.  It is connected to a 1k resistor and a switch in series to ground.
 
 I did not use the 3.3 V rail in the circuits to avoid risk of accidentally shorting anything on the board.
+
+![Board Layout](https://github.com/danielswalker/raspberry_pi_projects/blob/master/gpio_led_and_switch/IMG_8666.jpg?raw=true)
+
