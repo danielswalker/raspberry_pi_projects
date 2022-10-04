@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import button_monitoring_pb2 as button__monitoring__pb2
+import monitor_button_pb2 as monitor__button__pb2
 
 
 class ButtonMonitoringStub(object):
@@ -16,8 +16,8 @@ class ButtonMonitoringStub(object):
         """
         self.HandleButtonEvent = channel.unary_unary(
                 '/ButtonMonitoring/HandleButtonEvent',
-                request_serializer=button__monitoring__pb2.ButtonEvent.SerializeToString,
-                response_deserializer=button__monitoring__pb2.ButtonPressCount.FromString,
+                request_serializer=monitor__button__pb2.ButtonEvent.SerializeToString,
+                response_deserializer=monitor__button__pb2.ButtonPressCount.FromString,
                 )
 
 
@@ -35,8 +35,8 @@ def add_ButtonMonitoringServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'HandleButtonEvent': grpc.unary_unary_rpc_method_handler(
                     servicer.HandleButtonEvent,
-                    request_deserializer=button__monitoring__pb2.ButtonEvent.FromString,
-                    response_serializer=button__monitoring__pb2.ButtonPressCount.SerializeToString,
+                    request_deserializer=monitor__button__pb2.ButtonEvent.FromString,
+                    response_serializer=monitor__button__pb2.ButtonPressCount.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -60,7 +60,7 @@ class ButtonMonitoring(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ButtonMonitoring/HandleButtonEvent',
-            button__monitoring__pb2.ButtonEvent.SerializeToString,
-            button__monitoring__pb2.ButtonPressCount.FromString,
+            monitor__button__pb2.ButtonEvent.SerializeToString,
+            monitor__button__pb2.ButtonPressCount.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -1,8 +1,8 @@
 import RPi.GPIO as GPIO
 import time
 import grpc
-from button_monitoring_pb2 import ButtonActions, ButtonEvent, ButtonPressCount
-from button_monitoring_pb2_grpc import ButtonMonitoringStub
+from monitor_button_pb2 import ButtonActions, ButtonEvent, ButtonPressCount
+from monitor_button_pb2_grpc import ButtonMonitoringStub
 
 channel = grpc.insecure_channel("Walker:50051")
 client = ButtonMonitoringStub(channel)

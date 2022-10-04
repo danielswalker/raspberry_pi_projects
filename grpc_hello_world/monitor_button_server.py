@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import grpc
 from concurrent import futures
-from button_monitoring_pb2 import ButtonActions, ButtonEvent, ButtonPressCount
-import button_monitoring_pb2_grpc
+from monitor_button_pb2 import ButtonActions, ButtonEvent, ButtonPressCount
+import monitor_button_pb2_grpc
 
 class MonitorButtonService(
                 button_monitoring_pb2_grpc.ButtonMonitoringServicer):
