@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 import grpc
-from button_monitoring_pb2 import ButtonActions, ButtonEvent, PressCount
+from button_monitoring_pb2 import ButtonActions, ButtonEvent, ButtonPressCount
 from button_monitoring_pb2_grpc import ButtonMonitoringStub
 
 channel = grpc.insecure_channel("Walker:50051")
@@ -29,9 +29,11 @@ def respondToButtonTransition(channel):
         action = ButtonActions.RELEASE
     GPIO.output(ledPin, ledState)
     # call rpc
-    event = ButtonEvent(action=action, time=thisTime)
-    response = client.handleButtonEvent(event)
-    counter = response.count
+    event = ButtonEvent(action=action, timeOccurred=thisTime)
+    response = client.HandleButtonEvent(event)
+    if counter != response.count:
+        counter = response.count
+        print(counter)
 
 GPIO.add_event_detect(buttonPin, GPIO.BOTH, callback=respondToButtonTransition)
 
