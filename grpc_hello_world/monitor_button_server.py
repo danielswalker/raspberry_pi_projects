@@ -10,8 +10,8 @@ class MonitorButtonService(
     lastTime = 0.
     lastState = None
     shortestCountableInterval = 0.15
-    def handleButtonEvent(self, request, context):
-        thisTime = request.time
+    def HandleButtonEvent(self, request, context):
+        thisTime = request.timeOccurred
         if request.action == ButtonActions.PRESS:
             ledState = True
         else:
@@ -30,6 +30,7 @@ class MonitorButtonService(
                     self.counter += 1
                     print(self.counter)
         self.lastState = ledState
+        return ButtonPressCount(count=self.counter)
 
 
 def serve():
