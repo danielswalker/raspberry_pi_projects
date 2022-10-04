@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+enum ButtonActions{
+  PRESS = 0;
+  RELEASE = 1;
+}
+
+message ButtonEvent{
+  ButtonActions action = 1;
+  double timeOccurred = 2;
+}
+
+message ButtonPressCount{
+  int32 count = 1;
+}
+
+service ButtonMonitoring {
+  rpc HandleButtonEvent(ButtonEvent) returns (ButtonPressCount);
+}
