@@ -25,7 +25,8 @@ class KeyboardMonitor():
         #     print(self.keys_pressed)
 
 
-channel = grpc.insecure_channel("raspberrypi.local:50051")
+# channel = grpc.insecure_channel("raspberrypi.local:50051")
+channel = grpc.insecure_channel("192.168.1.218:50051")
 client = KeySenderStub(channel)
 myKeyboard = KeyboardMonitor()
 with keyboard.Listener(
