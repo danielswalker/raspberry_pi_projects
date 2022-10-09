@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+message KeysPressed{
+  repeated string keys = 1;
+}
+
+message Empty {
+
+}
+
+service KeySender {
+  rpc HandleKeyEvent(KeysPressed) returns (Empty);
+}
