@@ -2,6 +2,7 @@ import io
 import socket
 import struct
 from PIL import Image
+import matplotlib.pyplot as pl
 
 # Start a socket listening for connections on 0.0.0.0:8000 (0.0.0.0 means
 # all interfaces)
@@ -12,6 +13,7 @@ server_socket.listen(0)
 # Accept a single connection and make a file-like object out of it
 connection = server_socket.accept()[0].makefile('rb')
 try:
+    img = None
     while True:
         # Read the length of the image as a 32-bit unsigned int. If the
         # length is zero, quit the loop
@@ -27,6 +29,14 @@ try:
         image_stream.seek(0)
         image = Image.open(image_stream)
         print('Image is %dx%d' % image.size)
+        if img is None:
+            img = pl.imshow(image)
+        else:
+            img.set_data(image)
+
+        pl.pause(0.01)
+        pl.draw()
+
         image.verify()
         print('Image is verified')
 finally:
