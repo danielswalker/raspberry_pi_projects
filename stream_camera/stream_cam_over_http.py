@@ -9,8 +9,9 @@ import socketserver
 from threading import Condition
 from http import server
 
-WIDTH = 960
-HEIGHT = 640
+WIDTH = 480 # 960
+HEIGHT = 320 # 640
+FPS = 10
 
 PAGE="""\
 <html>
@@ -84,7 +85,7 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     daemon_threads = True
 
-with picamera.PiCamera(resolution='{}x{}'.format(WIDTH, HEIGHT), framerate=24) as camera:
+with picamera.PiCamera(resolution='{}x{}'.format(WIDTH, HEIGHT), framerate=FPS) as camera:
     output = StreamingOutput()
     #Uncomment the next line to change your Pi's Camera rotation (in degrees)
     #camera.rotation = 90
