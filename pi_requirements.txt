@@ -1,0 +1,12 @@
+numpy
+pillow
+picamera
+Adafruit_PCA9685
+RPi.GPIO
+grpcio
+grpcio-tools
+adafruit-blinka
+adafruit-circuitpython-register
+adafruit-circuitpython-busdevice
+adafruit-circuitpython-motor
+adafruit-circuitpython-pca9685
