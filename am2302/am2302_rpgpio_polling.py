@@ -19,14 +19,14 @@ time.sleep(sendStartTimeMs * MS_TO_S)
 
 transitionBuffer = []
 def respondToTransition(channel):
-    # global transitionBuffer
+    #global transitionBuffer
     thisTime = time.time()
     print("something on channel {}".format(channel))
     #if GPIO.input(sensorPin) == GPIO.LOW:
     #    print("low!")
     #else:
     #    print("high!")
-    transitionBuffer.append(thisTime)
+    #transitionBuffer.append(thisTime)
 
 def bitArrayToInt(bits):
     val = 0
@@ -58,71 +58,27 @@ GPIO.setup(sensorPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 pinState = GPIO.input(sensorPin)
 tStart = time.time()
 try:
+    # # fails to catch the edges
+    # while time.time() - tStart < 2.:
+    #     channel = GPIO.wait_for_edge(sensorPin, GPIO.FALLING, timeout=2000)
+    #     respondToTransition(channel)
+    
+    # # fails to catch the edges
+    # GPIO.add_event_detect(sensorPin, GPIO.FALLING, callback=respondToTransition)
+    # while True:
+    #     pass
+
+    # works but this is blocking
     while time.time() - tStart < 2.:
         if GPIO.input(sensorPin) != pinState:
             pinState = not pinState
             if pinState == GPIO.LOW:
                 transitionBuffer.append(time.time())
+    GPIO.cleanup()
 except KeyboardInterrupt:
     GPIO.cleanup()
 tDeltasUs = [round((t - s) * 1e6) for s, t in zip(transitionBuffer, transitionBuffer[1:])]
-# print(tDeltasUs)
-# print(len(transitionBuffer))
 temperatureF, relativeHumidity = decodeTDeltasUs(tDeltasUs)
 print("T: {}F, RH: {}%".format(temperatureF, round(relativeHumidity, 1)))
 # TODO - add checksum verification, buffer length checks
 # TODO - I don't want this blocking; need to figure out why I can't get the event detection callback
-
-#GPIO.add_event_detect(sensorPin, GPIO.FALLING, callback=respondToTransition)
-#GPIO.add_event_callback(sensorPin, respondToTransition)
-#print("added event detection")
-#
-#try:
-#    while True:
-#        time.sleep(1)
-#except KeyboardInterrupt:
-#    GPIO.cleanup()
-#    print(transitionBuffer)
-# time.sleep(2.)
-# respondToTransition(sensorPin)
-# print(transitionBuffer)
-# GPIO.cleanup()
-
-# GPIO.setup(buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-# 
-# counter = 0
-# lastTime = 0.
-# lastState = None
-# shortestCountableInterval = 0.15
-# def respondToButtonTransition(channel):
-#     global counter
-#     global lastTime
-#     global lastState
-#     thisTime = time.time()
-#     if GPIO.input(buttonPin) == GPIO.LOW:
-#         ledState = GPIO.HIGH
-#     else:
-#         ledState = GPIO.LOW
-#     GPIO.output(ledPin, ledState)
-# 
-#     # first time - depending on where in bounce, could be high or low
-#     if lastState is None:
-#         if ledState:
-#             lastTime = thisTime
-#             counter += 1
-#             print(counter)
-#     elif ledState != lastState:
-#         if thisTime > lastTime + shortestCountableInterval:
-#             lastTime = thisTime
-#             if ledState:
-#                 counter += 1
-#                 print(counter)
-#     lastState = ledState
-# 
-# GPIO.add_event_detect(buttonPin, GPIO.BOTH, callback=respondToButtonTransition)
-# 
-# try:
-#     while True:
-#         time.sleep(1)
-# except KeyboardInterrupt:
-#     GPIO.cleanup()
