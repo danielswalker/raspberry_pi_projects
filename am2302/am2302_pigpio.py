@@ -34,7 +34,7 @@ def decodeTDeltasUs(tDeltasUs):
         print("Only received {} of 40 bits from sensor, try again.".format(len(tDeltasUs) - 1))
         raise AssertionError
 
-    # each pulse has a 50 us low, followed by high of 25 us for 0, 50 us for 1
+    # each pulse has a 50us low, followed by high of ~25us for 0, 75us for 1
     bits = [tDeltaUs > 100 for tDeltaUs in tDeltasUs]
 
     # the first pulse is the start signal from sensor, ignore
