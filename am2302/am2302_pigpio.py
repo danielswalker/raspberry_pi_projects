@@ -27,7 +27,7 @@ def bitArrayToInt(bits):
 
 def decodeTDeltasUs(tDeltasUs):
 
-    if len(tDeltasUs) ==0:
+    if len(tDeltasUs) == 0:
         print("Didn't get any data from sensor.")
         raise AssertionError
     elif len(tDeltasUs) != 41:
