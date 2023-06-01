@@ -10,3 +10,4 @@ adafruit-circuitpython-register
 adafruit-circuitpython-busdevice
 adafruit-circuitpython-motor
 adafruit-circuitpython-pca9685
+pigpio
