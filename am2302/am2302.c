@@ -84,25 +84,43 @@ int main() {
       }
     }
     nanosleep(&delay, NULL);
+
     struct timespec now;
     clock_gettime(CLOCK_MONOTONIC, &now);
+    printf("%lld.%.9ld\n", (long long)now.tv_sec, now.tv_nsec);
     if ((now.tv_sec - start.tv_sec) > 2) {
+      printf("Timed out!\n");
       break;
     }
   }
+
+  // turn off edge detection
+  *(gpio + 22) = 0;
+
   printf("Found %d falling edges\n", idx);
+
+  if (idx < 42) {
+    printf("Did not find enough edges\n");
+    // return 1;
+  }
+
   printf("Timestamps:\n");
-  for (int i = 0; i < 42; i++) {
+  for (int i = 0; i < idx; i++) {
     printf("%lld.%.9ld\n", (long long)edgeTimes[i].tv_sec,
            edgeTimes[i].tv_nsec);
   }
 
-  for (int i = 2; i < 42; i++) {
-    printf("%lld.%.9ld\n",
-           (long long)edgeTimes[i].tv_sec - (long long)edgeTimes[i - 1].tv_sec,
-           edgeTimes[i].tv_nsec - edgeTimes[i - 1].tv_nsec);
-  }
-  //   *(gpio + 7) = 1 << 19;   // Set GPIO19 high
+  // for (int i = 1; i < idx; i++) {
+  //   long long seconds =
+  //       (long long)(edgeTimes[i].tv_sec - edgeTimes[i - 1].tv_sec);
+  //   long nanoseconds = edgeTimes[i].tv_nsec - edgeTimes[i - 1].tv_nsec;
 
+  //   if (nanoseconds < 0) {
+  //     seconds--;
+  //     nanoseconds += 1000000000;
+  //   }
+
+  //   printf("%lld.%.9ld\n", seconds, nanoseconds);
+  // }
   return 0;
 }
